@@ -1,0 +1,26 @@
+phraseapp:
+  project_id: 0525e0429c779422c01e5e90548f1a9c
+  file_format: properties
+  push:
+    sources:
+      - file: ./messages/src/main/resources/de/project/messages/<tag>_de_DE.properties
+      params:
+        file_format: properties
+        locale_id: c46579273da4aeab95c239110b79c14d
+        update_translations: true
+        skip_unverification: true
+        - file: ./src/main/resources/de/project/messages/messages_en_GB.properties
+          params:
+            file_format: properties
+            locale_id: 86be2602f1f96cf6e4aaa93131924dbc
+            update_translations: true
+  pull:
+    targets:
+      - file: ./src/main/resources/de/project/messages/messages.properties
+        params:
+          file_format: properties
+          locale_id: c46579277da4aeab95c239110b79c14d
+      - file: ./src/main/resources/de/project/messages/messages_en_GB.properties
+        params:
+          file_format: properties
+          locale_id: 86be2612f2f96cf6e4aaa93731924dbc
