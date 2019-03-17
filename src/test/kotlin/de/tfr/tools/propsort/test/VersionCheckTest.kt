@@ -1,13 +1,15 @@
 package de.tfr.tools.propsort.test
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 import tools.paps.VersionCheck
 
+@DisplayName("Version Check")
 class VersionCheckTest {
 
     @Test
-    fun versionCheckTest() {
+    fun `Version check for updates`() {
         val checkResult = VersionCheck.checkForUpdates()
         assertEquals("1.0.5", checkResult.currentVersion)
     }

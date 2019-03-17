@@ -1,14 +1,15 @@
 package de.tfr.tools.propsort.test
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 import tools.paps.KeySorter
 
-
+@DisplayName("KeySorter")
 class KeySorterTest {
 
     @Test
-    fun sortKeysTest() {
+    fun `Sort keys`() {
         val keys = mutableListOf("cc", "Ab", "cC", "a_", "_b", "Ba", "_a", "c_", "aA", "aa", "ab", "aB")
 
         keys.sortWith(KeySorter)

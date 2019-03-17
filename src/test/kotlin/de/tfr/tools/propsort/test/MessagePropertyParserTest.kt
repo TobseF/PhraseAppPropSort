@@ -1,15 +1,16 @@
 package de.tfr.tools.propsort.test
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 import tools.paps.MessagePropertyParser
 import tools.paps.formatted
 
+@DisplayName("Message property parser")
 class MessagePropertyParserTest {
 
-
     @Test
-    fun testSortLines() {
+    fun `Sort keys`() {
         val props = """
             ab_prop =foo
             a_prop =foo
@@ -29,7 +30,7 @@ class MessagePropertyParserTest {
     }
 
     @Test
-    fun testMultilineComments() {
+    fun `Multiple line comments`() {
         val props = """
             #First description line
             #Second description line
@@ -46,7 +47,7 @@ class MessagePropertyParserTest {
     }
 
     @Test
-    fun testKeyWithoutValue() {
+    fun `Key without value`() {
         val props = """
             Key_Without_Value =
         """
@@ -56,7 +57,7 @@ class MessagePropertyParserTest {
     }
 
     @Test
-    fun testComment() {
+    fun `Simple comment`() {
         val props = """
             #Additional description
             A_Key_With_Comment=Be careful
@@ -72,7 +73,7 @@ class MessagePropertyParserTest {
     }
 
     @Test
-    fun testDuplicatedPropertiesWithSameValue() {
+    fun `Duplicated properties with same value`() {
         val props = """
             Double_Key_With_SameValue=Value_1
             Double_Key_With_SameValue=Value_1
@@ -88,7 +89,7 @@ class MessagePropertyParserTest {
 
 
     @Test
-    fun testDuplicatedPropertiesWithDifferentValue() {
+    fun `Duplicated properties with different values`() {
         val props = """
             Double_Key_With_DifferentValue=Value_1
             Double_Key_With_DifferentValue=Value_2
