@@ -1,5 +1,5 @@
 # 🛠 PhraseApp property file formatter
-
+[![BCH compliance](https://bettercodehub.com/edge/badge/TobseF/PhraseAppPropSort?branch=master)](https://bettercodehub.com/)  
 This command line tool to **format** and **sort** Java message properties files in the same way as [PhraseApp](https://phraseapp.com/).
 
 ### When to use it:
