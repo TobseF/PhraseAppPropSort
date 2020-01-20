@@ -1,7 +1,7 @@
 package de.tfr.tools.propsort.test
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import tools.paps.MessagePropertyParser
@@ -15,6 +15,7 @@ class MessagePropertyParserFileTest {
     private val resourcesPath = "src/test/resources/"
     private val propertiesFile = resourcesPath + "messages.properties"
     private val expectedFile = resourcesPath + "messages_formatted.properties"
+    private val fileWithUmlaut = resourcesPath + "messages_umlaut_de.properties"
 
     @Test
     fun `Format massage property file`() {
@@ -25,13 +26,12 @@ class MessagePropertyParserFileTest {
 
         println("$propertiesFile:")
 
-
         assertEquals(expected.joinToString(), sorted.joinToString())
     }
 
     @Test
     fun `Has PhraseApp config file`() {
-        Assertions.assertTrue(PhraseAppParser.hasPhraseAppConfig(File(resourcesPath)))
+        assertTrue(PhraseAppParser.hasPhraseAppConfig(File(resourcesPath)))
     }
 
     @Test
@@ -39,7 +39,13 @@ class MessagePropertyParserFileTest {
         PhraseAppParser.parse(File(resourcesPath))
     }
 
-    private fun List<String>.joinToString() = this.joinToString("\n")
+    @Test
+    fun `Read umlauts from UTF8`() {
+        val parsed = MessagePropertyParser(File(fileWithUmlaut)).parse()
+        assertEquals(parsed[0].value, "Änderung")
+        assertEquals(parsed[1].value, "Überprüft")
+    }
 
+    private fun List<String>.joinToString() = this.joinToString("\n")
 
 }
