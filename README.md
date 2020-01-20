@@ -1,4 +1,5 @@
 # 🛠 PhraseApp property file formatter
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.61-blue.svg?style=flat&logo=kotlin&logoColor=white)](http://kotlinlang.org)
 [![BCH compliance](https://bettercodehub.com/edge/badge/TobseF/PhraseAppPropSort?branch=master)](https://bettercodehub.com/)  
 This command line tool to **format** and **sort** Java message properties files in the same way as [PhraseApp](https://phraseapp.com/).
 
@@ -6,7 +7,7 @@ This command line tool to **format** and **sort** Java message properties files 
  * You need consistently formatted  `.properties` over all your projects.
  * You want to reduce merge conflicts.
  * You like to do a `phraseapp pull` without troubles.
- * You use use the GitHub Sync.
+ * You use the GitHub Sync.
  
 ### Features:
  
@@ -39,7 +40,7 @@ So you can simply call `prosort` your project root dir to sort all configured me
 
 ### Usage
 
-Sort & Format all files in current directory:  
+Sort & Format all files in the current directory:  
 ℹ If a `phraseapp.yml` is present in this dir, only files listed there will be processed. 
 
 ``` shell
