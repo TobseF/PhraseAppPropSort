@@ -8,7 +8,7 @@ import java.net.URL
 object VersionCheck {
 
     private const val versionFileURl =
-        "https://raw.githubusercontent.com/TobseF/PhraseAppPropSort/master/version.info"
+        "https://raw.githubusercontent.com/TobseF/PhraseAppPropSort/master/src/main/resources/version.info"
 
     /**
      * 00.00.00
