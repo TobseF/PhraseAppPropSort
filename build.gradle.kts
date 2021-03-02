@@ -3,14 +3,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     application
-    kotlin("jvm") version "1.3.61"
-    id("com.github.johnrengelman.shadow") version "5.0.0"
+    kotlin("jvm") version "1.4.31"
+    id("com.github.johnrengelman.shadow") version "6.1.0"
 }
 
 group = "de.tfr.tool"
 version = "1.0.6"
 
 application {
+    applicationName = "PhraseAppPropSort"
     mainClassName = "tools.paps.RunKt"
 }
 
@@ -25,7 +26,6 @@ dependencies {
 
 configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
-
 }
 
 tasks.withType<Test> {

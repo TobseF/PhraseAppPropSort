@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import tools.paps.MessagePropertyParser
+import tools.paps.Version
 import tools.paps.formatted
 
 @DisplayName("Message property parser")
@@ -71,6 +72,13 @@ class MessagePropertyParserTest {
 
         assertEquals(expected, formatter.parse().formatted().joinToString())
     }
+
+    @Test
+    fun `Read test version file`() {
+        assertEquals("1.0.6", readFile("/version.info"))
+    }
+
+    private fun readFile(fileName: String) = Version::class.java.getResource(fileName).readText(Charsets.UTF_8)
 
     @Test
     fun `Duplicated properties with same value`() {
