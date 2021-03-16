@@ -11,6 +11,6 @@ class VersionCheckTest {
     @Test
     fun `Version check for updates`() {
         val checkResult = VersionCheck.checkForUpdates()
-        assertEquals("1.0.6", checkResult.currentVersion)
+        assertEquals("1.0.7", checkResult.currentVersion)
     }
 }

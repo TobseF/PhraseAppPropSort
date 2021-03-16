@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "de.tfr.tool"
-version = "1.0.6"
+version = "1.0.7"
 
 application {
     applicationName = "PhraseAppPropSort"

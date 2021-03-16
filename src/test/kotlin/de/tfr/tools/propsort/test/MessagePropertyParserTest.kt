@@ -75,7 +75,7 @@ class MessagePropertyParserTest {
 
     @Test
     fun `Read test version file`() {
-        assertEquals("1.0.6", readFile("/version.info"))
+        assertEquals("1.0.7", readFile("/version.info"))
     }
 
     private fun readFile(fileName: String) = Version::class.java.getResource(fileName).readText(Charsets.UTF_8)

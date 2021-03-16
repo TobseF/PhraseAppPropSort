@@ -1,5 +1,7 @@
 package tools.paps
 
+import tools.paps.sorter.KeySorter
+
 
 class Property(val key: String, val value: String?) : Comparable<Property> {
     var comment: String? = null
@@ -22,7 +24,6 @@ class Property(val key: String, val value: String?) : Comparable<Property> {
     override fun toString(): String {
         return "$key = $value #$comment"
     }
-
 
     override fun hashCode(): Int {
         var result = key.hashCode()
