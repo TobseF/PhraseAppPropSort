@@ -5,6 +5,7 @@ plugins {
     application
     kotlin("jvm") version "1.4.31"
     id("com.github.johnrengelman.shadow") version "6.1.0"
+    kotlin("plugin.serialization") version "1.6.10"
 }
 
 group = "de.tfr.tool"
@@ -21,6 +22,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+    implementation("net.mamoe.yamlkt:yamlkt:0.10.2")
     testImplementation("org.junit.jupiter", "junit-jupiter", "5.4.0")
 }
 
