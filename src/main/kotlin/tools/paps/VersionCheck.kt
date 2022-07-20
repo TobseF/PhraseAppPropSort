@@ -1,11 +1,12 @@
 package tools.paps
 
+import io.klogging.NoCoLogging
 import tools.paps.VersionCheck.VersionCheckResult.State
 import java.io.IOException
 import java.net.URL
 
 
-object VersionCheck {
+object VersionCheck : NoCoLogging {
 
     private const val versionFileURl =
         "https://raw.githubusercontent.com/TobseF/PhraseAppPropSort/master/src/main/resources/version.info"
@@ -29,9 +30,8 @@ object VersionCheck {
                 }
             }
         } catch (e: IOException) {
-            println("Couldn't check for updates")
+            logger.error(e) { "Couldn't check for updates" }
         }
-
         return result
     }
 

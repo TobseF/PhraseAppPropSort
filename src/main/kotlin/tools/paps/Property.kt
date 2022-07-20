@@ -1,7 +1,7 @@
 package tools.paps
 
 
-class Property(val key: String, val value: String?) : Comparable<Property> {
+open class Property(open val key: String, open val value: String?) : Comparable<Property> {
     var comment: String? = null
 
     val keyLength: Int

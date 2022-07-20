@@ -1,60 +1,69 @@
 package tools.paps
 
+import io.klogging.noCoLogger
 import tools.paps.PhraseAppParser.getPhraseAppConfigFile
 import tools.paps.PropertyFileType.listPropertyFiles
 import java.io.File
 import java.io.FileNotFoundException
 import java.nio.file.Files
 
+private val logger = noCoLogger("BackupJob")
 
-fun backupFile(file: File, folder: String?) {
-    val tempDir = getTempDir(folder)
+private const val defaultTempDir = "phrase_tool"
+
+/**
+ * @param subFolder subFolder in temp-dir
+ */
+fun backupFile(file: File, subFolder: String?) {
+    val tempDir = createAndGetTempDir(subFolder)   //could be replaced by createTempDirectory
     val destPath = """${tempDir.absolutePath}\${file.name}"""
     val destFile = File(destPath)
-    println("Backing up file from " + file.absolutePath + " to " + destFile.absolutePath)
+    logger.info { "Backing up file from " + file.absolutePath + " to " + destFile.absolutePath }
     Files.copy(file.toPath(), destFile.toPath())
 }
 
-private fun clearTempDir() {
-    val tempDir = getTempDir()
+private fun clearTempDir(subDir: String = defaultTempDir) {
+    val tempDir = createAndGetTempDir(subDir)
     val files = tempDir.listFiles()
-    println("Deleting ${files.size} files im temp folder: $tempDir")
+    logger.info { "Deleting ${files?.size} files im temp folder: ${tempDir.absolutePath}" }
     files?.forEach { it.delete() }
 }
 
-private fun getTempDir(): File {
-    val tempDir = File(System.getProperty("java.io.tmpdir") + "/propsort")
-    if (!(tempDir.exists() && tempDir.isDirectory)) {
-        println("Creating temp dir: $tempDir")
+fun createAndGetTempDir(subDir: String? = defaultTempDir): File {
+    val subPath = if (subDir == null) "" else "//$subDir"
+    val tempDir = File(System.getProperty("java.io.tmpdir") + subPath)
+    if (!tempDir.isDirectory) {
+        logger.info { "Creating temp dir: ${tempDir.absolutePath}" }
         tempDir.mkdir()
     }
     return tempDir
 }
 
-
 fun backupFiles(args: Array<String>) {
-    clearTempDir()
-    val dir = File(".")
-    if (PhraseAppParser.hasPhraseAppConfig(dir)) {
-        println("Using PhraseApp config file: " + dir.getPhraseAppConfigFile())
-        val folder = if (args.size == 2) args[1] else null
-        PhraseAppParser.parse(dir).flatMap { backupDirectory(it) }.forEach { file -> backupFile(file, folder) }
+    if (args.size == 2) {
+        backupFiles(args.toFile(1))
+    } else if (args.size == 3) {
+        val tempSubDir = args[2]
+        logger.info { "Using custom sub subdirectory: $tempSubDir" }
+        backupFiles(args.toFile(1), tempSubDir)
     } else {
-        println("Couldn't find PhraseApp config file: " + dir.absolutePath)
+        logger.info { "Running backup job from current directory" }
+        backupFiles()
+    }
+}
+
+fun backupFiles(sourceDir: File = File(""), tempSubDir: String = defaultTempDir) {
+    clearTempDir(tempSubDir)
+    if (PhraseAppParser.hasPhraseAppConfig(sourceDir)) {
+        logger.info { "Using PhraseApp config file: " + sourceDir.getPhraseAppConfigFile() }
+        PhraseAppParser.parse(sourceDir).flatMap { backupDirectory(it) }.forEach { file -> backupFile(file, tempSubDir) }
+    } else {
+        logger.info { "Couldn't find PhraseApp config file: " + sourceDir.absolutePath }
     }
 }
 
 private fun backupDirectory(directory: File): Set<File> {
-    return PropertyFileType.listPropertyFiles(directory)
-}
-
-private fun getTempDir(folder: String?): File {
-    val tempDir = File(getTempDir(folder).absolutePath + "\\" + (folder ?: ""))
-    if (!(tempDir.exists() && tempDir.isDirectory)) {
-        println("Creating temp dir: $tempDir")
-        tempDir.mkdir()
-    }
-    return tempDir
+    return listPropertyFiles(directory)
 }
 
 fun listKeys(file: File): Set<String> {
@@ -72,13 +81,17 @@ private fun collectKeys(file: File): Set<String> {
 
 fun compareDirectories(args: Array<String>) {
     if (args.size != 3) {
-        println("Comparing directories needs at least two arguments: local-dir & remote-dir ")
+        logger.error { "Comparing directories needs at least two arguments: local-dir & remote-dir " }
     }
-    println("Comparing directories: \"" + args[1] + "\" and \"" + args[2] + "\"")
-    val localKeys = listKeys(File(args[1]))
-    val remoteKeys = listKeys(File(args[2])).toMutableSet()
-    remoteKeys.removeAll(localKeys)
-    println("The following keys are unused remote keys: ")
-    remoteKeys.forEach { println(it) }
+    logger.info { "Comparing directories: \"" + args[1] + "\" and \"" + args[2] + "\"" }
+    compareDirectories(File(args[1]), File(args[2]))
 }
+
+fun compareDirectories(fileA: File, fileB: File) {
+    val localKeys = listKeys(fileA)
+    val remoteKeys = listKeys(fileB).toMutableSet()
+    remoteKeys.removeAll(localKeys)
+    logger.info { "The following keys are unused remote keys: " + remoteKeys.joinToString(System.lineSeparator()) }
+}
+
 

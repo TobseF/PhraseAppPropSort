@@ -14,7 +14,7 @@ object PhraseAppParser {
     }
 
     fun File.getPhraseAppConfigFile(): File {
-        return File(this.absolutePath + "/" + phraseAppFileName)
+        return File(this.absolutePath, phraseAppFileName)
     }
 
     fun parse(dir: File): Set<File> =
@@ -26,7 +26,7 @@ object PhraseAppParser {
             .toSet()
 
     private fun getAbsoluteDir(dir: File, file: String): String {
-        val fileName = dir.absolutePath.replace("\\.", "") + "/" + file.replace("./", "")
+        val fileName = dir.absolutePath.replace("\\.", "") + "/" + file.replace("./", "").removeSurrounding("\"")
         return fileName.removeSuffix(fileName.substringAfterLast("/"))
     }
 

@@ -1,10 +1,10 @@
 package tools.paps
 
+import io.klogging.NoCoLogging
 import java.io.File
-import java.util.*
 
 
-class MessagePropertyParser(val lines: List<String>) {
+class MessagePropertyParser(val lines: List<String>) : NoCoLogging {
 
     constructor(file: File) : this(file.readLines())
 
@@ -43,11 +43,9 @@ class MessagePropertyParser(val lines: List<String>) {
                     if (keys.contains(property.key)) {
                         val duplicate = parsed.filter { property == it }.firstOrNull()
                         if (duplicate != null) {
-                            println(
-                                "Warning: Omitting duplicate key (With the same value): ${property.key}= '${property.value}'"
-                            )
+                            logger.warn { "Omitting duplicate key (With the same value): ${property.key}= '${property.value}'" }
                         } else {
-                            println("Error: Found duplicate key, with different values: ${property.key}= '${property.value}'")
+                            logger.error { "Found duplicate key, with different values: ${property.key}= '${property.value}'" }
                             parsed.add(property)
                             keys.add(property.key)
                         }
